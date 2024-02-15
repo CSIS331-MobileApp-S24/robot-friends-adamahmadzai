@@ -1,10 +1,10 @@
 import React from "react";
-import logo from "./logo.svg";
+
 import "./App.css";
-import CardList from "./CardList";
-import { robots } from "./robots";
-import SearchBox from "./SearchBox";
-import Scroll from "./Scroll";
+import CardList from "../components/CardList";
+import { robots } from "../robots";
+import SearchBox from "../components/SearchBox";
+import Scroll from "../components/Scroll";
 const state = { robots: robots, searchfield: "" };
 
 class App extends React.Component {
@@ -27,22 +27,25 @@ class App extends React.Component {
       });
   }
   render() {
-    const filteredRobots = this.state.robots.filter((robot) => {
+    const{robots,searchfield} = this.state;
+    const filteredRobots = robots.filter((robot) => {
       return robot.name
         .toLowerCase()
-        .includes(this.state.searchfield.toLowerCase());
+        .includes(searchfield.toLowerCase());
     });
-
-    console.log(filteredRobots);
-    return (
-      <div className="tc">
-        <h1 className="f1">RoboFriends</h1>
-        <SearchBox searchChange={this.OnSearchChange} />
-        <Scroll>
-          <CardList robots={filteredRobots} />;
-        </Scroll>
-      </div>
-    );
+    
+    
+  return !robots.length ? (
+    <h1>Loading</h1>
+  ) : (
+    <div className="tc">
+      <h1 className="f1">RoboFriends</h1>
+      <SearchBox searchChange={this.OnSearchChange} />
+      <Scroll>
+        <CardList robots={filteredRobots} />
+      </Scroll>
+    </div>
+  );
   }
 }
 
